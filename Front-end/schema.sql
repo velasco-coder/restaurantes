@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS businesses (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  address TEXT NOT NULL,
+  category TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  hours TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id SERIAL PRIMARY KEY,
+  business_id INTEGER NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+  review_text TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

@@ -1,0 +1,227 @@
+/* styles.css */
+:root {
+  --primary-color: #4caf50;
+  --primary-dark: #388e3c;
+  --text-color: #333;
+  --bg-color: #f9f9f9;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --font-family: 'Poppins', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.main-container {
+  max-width: 650px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+}
+
+#business-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#business-form input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+#business-form input:focus,
+.review-input:focus,
+#search-input:focus,
+#category-filter:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.filters-section {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+#search-input,
+#category-filter {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.business-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.business-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.business-card h3 {
+  color: var(--primary-dark);
+  font-size: 1.25rem;
+}
+
+.business-card p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.business-card .actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.business-card .actions button {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #2196f3;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.review-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.review-input {
+  min-height: 90px;
+  resize: vertical;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font: inherit;
+}
+
+.submit-review {
+  align-self: flex-start;
+  border: none;
+  border-radius: 8px;
+  background-color: #111827;
+  color: #fff;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+
+.review {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 0.92rem;
+}
+
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .filters-section {
+    flex-direction: column;
+  }
+
+  #search-input,
+  #category-filter {
+    min-width: auto;
+  }
+}

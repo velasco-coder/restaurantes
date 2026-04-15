@@ -1,0 +1,171 @@
+{
+  "info": {
+    "name": "Directorio Manzanillo API",
+    "_postman_id": "85343f79-6dc7-4ed1-9e44-d6df0ab63d62",
+    "description": "Coleccion para probar la API del directorio de negocios en local o en produccion.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "businessId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Listar negocios",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/businesses",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "businesses"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Obtener negocio por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/businesses/{{businessId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "businesses",
+            "{{businessId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Crear negocio",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Tacos Fabian\",\n  \"address\": \"Av. Costera 100, Manzanillo\",\n  \"category\": \"tacos\",\n  \"phone\": \"3141234567\",\n  \"hours\": \"09:00 - 22:00\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/businesses",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "businesses"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Actualizar negocio",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Tacos Fabian Centro\",\n  \"address\": \"Av. Costera 100, Manzanillo\",\n  \"category\": \"tacos\",\n  \"phone\": \"3141234567\",\n  \"hours\": \"10:00 - 23:00\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/businesses/{{businessId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "businesses",
+            "{{businessId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Agregar resena",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"review_text\": \"Muy buen servicio y comida.\" \n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/businesses/{{businessId}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "businesses",
+            "{{businessId}}",
+            "reviews"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Eliminar negocio",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/businesses/{{businessId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "businesses",
+            "{{businessId}}"
+          ]
+        }
+      }
+    }
+  ]
+}

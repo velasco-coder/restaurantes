@@ -1,0 +1,5 @@
+Front-end/node_modules/
+Front-end/.env
+Front-end/server-out.log
+Front-end/server-err.log
+npm-debug.log*

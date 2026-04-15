@@ -1,0 +1,20 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "Directorio de negocios de Manzanillo con frontend y API en Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No hay pruebas configuradas\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}

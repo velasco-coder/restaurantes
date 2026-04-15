@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: directorio-manzanillo
+    runtime: node
+    rootDir: Front-end
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_SSL
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: directorio-manzanillo-db
+          property: connectionString
+
+databases:
+  - name: directorio-manzanillo-db
+    plan: free
