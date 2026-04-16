@@ -5,55 +5,161 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Directorio de Negocios - Manzanillo, Colima</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header class="header">
-    <h1>Directorio de Negocios Locales</h1>
-    <p>Descubre negocios de Manzanillo, Colima, desde una sola URL publica.</p>
+  <div class="page-aura aura-one"></div>
+  <div class="page-aura aura-two"></div>
+
+  <header class="hero">
+    <div class="hero-shell">
+      <div class="hero-copy">
+        <span class="eyebrow">MANZANILLO, COLIMA</span>
+        <h1>Un directorio local con presencia elegante, busqueda rapida y estilo premium.</h1>
+        <p>
+          Registra negocios, comparte reseñas y presenta la oferta local en una interfaz
+          pensada para verse profesional tanto en escritorio como en celular.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#business-form">Registrar negocio</a>
+          <a class="btn btn-secondary" href="#business-cards">Explorar directorio</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel">
+        <div class="hero-panel-head">
+          <span class="section-kicker">Vista general</span>
+          <p>Indicadores en tiempo real del directorio.</p>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">Negocios</span>
+            <strong id="total-businesses">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Categorias</span>
+            <strong id="total-categories">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Resenas</span>
+            <strong id="total-reviews">0</strong>
+          </article>
+        </div>
+      </aside>
+    </div>
   </header>
 
   <main class="main-container">
-    <section class="form-section card">
-      <h2 class="section-title" id="form-title">Agregar nuevo negocio</h2>
-      <form id="business-form">
-        <input type="text" id="name" placeholder="Nombre del negocio" required />
-        <input type="text" id="address" placeholder="Direccion (ej. Av. Costera, Manzanillo)" required />
-        <input type="text" id="category" placeholder="Categoria (ej. mariscos, tacos, refaccionaria)" required />
-        <input type="tel" id="phone" placeholder="Telefono (ej. 3141234567)" required />
-        <input type="text" id="hours" placeholder="Horario (ej. 9:00 - 22:00)" required />
-        <button type="submit" class="btn-primary">Guardar</button>
-      </form>
+    <section class="top-grid">
+      <article class="story-card">
+        <span class="section-kicker">Curaduria local</span>
+        <h2>Convierte tu lista de negocios en una vitrina atractiva y facil de compartir.</h2>
+        <p>
+          Este panel te permite capturar informacion clara, filtrar resultados y mostrar
+          reseñas en una experiencia cuidada visualmente.
+        </p>
+        <div class="story-points">
+          <div class="point-card">
+            <strong>Diseno editorial</strong>
+            <span>Paleta sobria, tipografia elegante y tarjetas con profundidad.</span>
+          </div>
+          <div class="point-card">
+            <strong>Uso practico</strong>
+            <span>Busqueda rapida, filtros directos y mapa integrado del destino.</span>
+          </div>
+        </div>
+      </article>
+
+      <section class="form-section surface-card">
+        <div class="section-heading">
+          <span class="section-kicker">Alta de negocios</span>
+          <h2 class="section-title" id="form-title">Agregar nuevo negocio</h2>
+          <p>Captura la informacion principal para que aparezca en el directorio publico.</p>
+        </div>
+
+        <form id="business-form">
+          <div class="field-grid">
+            <label class="field">
+              <span>Nombre</span>
+              <input type="text" id="name" placeholder="Nombre del negocio" required />
+            </label>
+            <label class="field">
+              <span>Categoria</span>
+              <input type="text" id="category" placeholder="Categoria (ej. mariscos, tacos, refaccionaria)" required />
+            </label>
+            <label class="field field-full">
+              <span>Direccion</span>
+              <input type="text" id="address" placeholder="Direccion (ej. Av. Costera, Manzanillo)" required />
+            </label>
+            <label class="field">
+              <span>Telefono</span>
+              <input type="tel" id="phone" placeholder="Telefono (ej. 3141234567)" required />
+            </label>
+            <label class="field">
+              <span>Horario</span>
+              <input type="text" id="hours" placeholder="Horario (ej. 9:00 - 22:00)" required />
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar negocio</button>
+        </form>
+      </section>
     </section>
 
-    <section class="filters-section card">
-      <input type="text" id="search-input" placeholder="Buscar por nombre o categoria..." />
-      <select id="category-filter">
-        <option value="">Todas las categorias</option>
-      </select>
+    <section class="filters-section surface-card">
+      <div class="filters-copy">
+        <span class="section-kicker">Busqueda inteligente</span>
+        <h2 class="section-title">Explora el directorio</h2>
+        <p id="results-summary">Mostrando 0 negocios registrados.</p>
+      </div>
+
+      <div class="filters-grid">
+        <label class="field">
+          <span>Buscar</span>
+          <input type="text" id="search-input" placeholder="Nombre o categoria..." />
+        </label>
+        <label class="field">
+          <span>Categoria</span>
+          <select id="category-filter">
+            <option value="">Todas las categorias</option>
+          </select>
+        </label>
+      </div>
     </section>
 
     <section class="business-list-section">
-      <h2 class="section-title">Negocios registrados</h2>
+      <div class="section-heading section-heading-inline">
+        <div>
+          <span class="section-kicker">Selecciones locales</span>
+          <h2 class="section-title">Negocios registrados</h2>
+        </div>
+        <p class="section-note">Comparte esta pagina y cualquier persona podra explorarla desde su URL publica.</p>
+      </div>
       <div id="business-cards" class="business-cards-grid"></div>
     </section>
 
-    <section class="map-section card">
-      <h2 class="section-title">Ubicacion en Manzanillo, Colima</h2>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d149338.9390205243!2d-104.4036432!3d19.1112879!2m3!1f0!2f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842d5d0c1e2a7f8f%3A0x2e6c4f8a6e6c4f8a!2sManzanillo%2C%20Col.!5e0!3m2!1ses-419!2smx!4v1729795200000!5m2!1ses-419!2smx"
-        width="100%"
-        height="300"
-        style="border: 0; border-radius: 8px;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+    <section class="map-section surface-card">
+      <div class="section-heading">
+        <span class="section-kicker">Contexto geografico</span>
+        <h2 class="section-title">Ubicacion en Manzanillo, Colima</h2>
+        <p>Una vista general de la ciudad, sin marcar ningun negocio en particular.</p>
+      </div>
+      <div class="map-frame">
+        <iframe
+          title="Mapa general de Manzanillo, Colima"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-104.431%2C19.013%2C-104.216%2C19.185&layer=mapnik"
+          width="100%"
+          height="320"
+          style="border: 0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>&copy; 2026 Directorio local de Manzanillo. Apoya a los negocios de tu comunidad.</p>
+    <p>&copy; 2026 Directorio local de Manzanillo. Diseno elegante para impulsar negocios de tu comunidad.</p>
   </footer>
 
   <script src="script.js"></script>

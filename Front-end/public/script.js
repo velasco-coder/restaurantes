@@ -5,6 +5,10 @@ const businessCards = document.getElementById('business-cards');
 const searchInput = document.getElementById('search-input');
 const categoryFilter = document.getElementById('category-filter');
 const formTitle = document.getElementById('form-title');
+const totalBusinesses = document.getElementById('total-businesses');
+const totalCategories = document.getElementById('total-categories');
+const totalReviews = document.getElementById('total-reviews');
+const resultsSummary = document.getElementById('results-summary');
 
 let currentEditId = null;
 let businessesCache = [];
@@ -40,7 +44,7 @@ form.addEventListener('submit', async (event) => {
     form.reset();
     await fetchBusinesses(searchInput.value, categoryFilter.value);
   } catch (error) {
-    alert('No se pudo guardar el negocio.');
+    alert(getFriendlyErrorMessage(error, 'guardar el negocio'));
     console.error(error);
   }
 });
@@ -73,28 +77,42 @@ async function fetchBusinesses(query = '', category = '') {
 
     renderBusinesses(filteredBusinesses);
     populateCategoryFilter(businessesCache, category);
+    updateStats(businessesCache, filteredBusinesses);
   } catch (error) {
-    businessCards.innerHTML = '<p>No fue posible cargar los negocios.</p>';
+    businessCards.innerHTML = `<div class="empty-state"><p>${escapeHtml(getFriendlyErrorMessage(error, 'cargar los negocios'))}</p></div>`;
     console.error(error);
   }
 }
 
 function renderBusinesses(businesses) {
   if (businesses.length === 0) {
-    businessCards.innerHTML = '<p>No se encontraron negocios.</p>';
+    businessCards.innerHTML = `
+      <div class="empty-state">
+        <p>No se encontraron negocios con los filtros actuales.</p>
+      </div>
+    `;
     return;
   }
 
   businessCards.innerHTML = businesses
     .map((business) => {
       const reviews = Array.isArray(business.reviews) ? business.reviews : [];
+      const reviewLabel = reviews.length === 1 ? '1 resena' : `${reviews.length} resenas`;
       return `
         <div class="business-card">
-          <h3>${escapeHtml(business.name)}</h3>
-          <p><strong>Direccion:</strong> ${escapeHtml(business.address)}</p>
-          <p><strong>Categoria:</strong> ${escapeHtml(business.category)}</p>
-          <p><strong>Telefono:</strong> ${escapeHtml(business.phone)}</p>
-          <p><strong>Horario:</strong> ${escapeHtml(business.hours)}</p>
+          <div class="business-card-top">
+            <div>
+              <span class="business-tag">${escapeHtml(capitalize(business.category))}</span>
+              <h3>${escapeHtml(business.name)}</h3>
+            </div>
+            <span class="business-count">${reviewLabel}</span>
+          </div>
+          <div class="business-meta">
+            <p><strong>Direccion</strong><span>${escapeHtml(business.address)}</span></p>
+            <p><strong>Categoria</strong><span>${escapeHtml(capitalize(business.category))}</span></p>
+            <p><strong>Telefono</strong><span>${escapeHtml(business.phone)}</span></p>
+            <p><strong>Horario</strong><span>${escapeHtml(business.hours)}</span></p>
+          </div>
           <div class="actions">
             <button class="edit-btn" onclick="editBusiness(${business.id})">Editar</button>
             <button class="delete-btn" onclick="deleteBusiness(${business.id})">Eliminar</button>
@@ -102,8 +120,12 @@ function renderBusinesses(businesses) {
           <div class="review-section">
             <textarea class="review-input" placeholder="Escribe una resena..." id="review-${business.id}"></textarea>
             <button class="submit-review" onclick="addReview(${business.id})">Enviar resena</button>
-            <div id="reviews-${business.id}">
-              ${reviews.map((review) => `<div class="review">${escapeHtml(review.review_text)}</div>`).join('')}
+            <div class="reviews-list" id="reviews-${business.id}">
+              ${
+                reviews.length > 0
+                  ? reviews.map((review) => `<div class="review">${escapeHtml(review.review_text)}</div>`).join('')
+                  : '<p class="empty-reviews">Aun no hay resenas para este negocio.</p>'
+              }
             </div>
           </div>
         </div>
@@ -147,7 +169,7 @@ async function deleteBusiness(id) {
 
     await fetchBusinesses(searchInput.value, categoryFilter.value);
   } catch (error) {
-    alert('No se pudo eliminar el negocio.');
+    alert(getFriendlyErrorMessage(error, 'eliminar el negocio'));
     console.error(error);
   }
 }
@@ -174,7 +196,7 @@ async function addReview(id) {
     textarea.value = '';
     await fetchBusinesses(searchInput.value, categoryFilter.value);
   } catch (error) {
-    alert('No se pudo enviar la resena.');
+    alert(getFriendlyErrorMessage(error, 'enviar la resena'));
     console.error(error);
   }
 }
@@ -191,6 +213,45 @@ function populateCategoryFilter(businesses, selectedCategory = '') {
   });
 
   categoryFilter.value = selectedCategory;
+}
+
+function updateStats(allBusinesses, filteredBusinesses) {
+  const categories = new Set(allBusinesses.map((business) => business.category));
+  const reviews = allBusinesses.reduce((total, business) => {
+    const currentReviews = Array.isArray(business.reviews) ? business.reviews.length : 0;
+    return total + currentReviews;
+  }, 0);
+
+  totalBusinesses.textContent = allBusinesses.length;
+  totalCategories.textContent = categories.size;
+  totalReviews.textContent = reviews;
+
+  const label = filteredBusinesses.length === 1 ? 'negocio' : 'negocios';
+  if (filteredBusinesses.length === allBusinesses.length) {
+    resultsSummary.textContent = `Mostrando ${filteredBusinesses.length} ${label} registrados.`;
+  } else {
+    resultsSummary.textContent = `Mostrando ${filteredBusinesses.length} de ${allBusinesses.length} ${allBusinesses.length === 1 ? 'negocio' : 'negocios'}.`;
+  }
+}
+
+function capitalize(value) {
+  if (!value) {
+    return '';
+  }
+
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function getFriendlyErrorMessage(error, action) {
+  if (window.location.protocol === 'file:') {
+    return `No se pudo ${action}. Abre la app desde http://localhost:5000 con el servidor Node encendido, no directamente como archivo.`;
+  }
+
+  if (error instanceof TypeError) {
+    return `No se pudo ${action}. Revisa que el servidor este corriendo y abre la app desde http://localhost:5000.`;
+  }
+
+  return `No se pudo ${action}.`;
 }
 
 function escapeHtml(value) {
