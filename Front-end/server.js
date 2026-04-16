@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = Number(process.env.PORT) || 5000;
 const publicDir = path.join(__dirname, 'public');
+const dbInitRetries = Number(process.env.DB_INIT_RETRIES) || 12;
+const dbInitDelayMs = Number(process.env.DB_INIT_DELAY_MS) || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -67,6 +69,38 @@ async function ensureSchema() {
     ALTER TABLE reviews
     ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
   `);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function initializeDatabase() {
+  await ensureSchema();
+  await pool.query('SELECT 1');
+}
+
+async function initializeDatabaseWithRetry() {
+  let lastError;
+
+  for (let attempt = 1; attempt <= dbInitRetries; attempt += 1) {
+    try {
+      await initializeDatabase();
+      console.log(`Base de datos lista en el intento ${attempt}.`);
+      return;
+    } catch (error) {
+      lastError = error;
+      console.error(`Intento ${attempt}/${dbInitRetries} para inicializar la base fallido:`, error);
+
+      if (attempt < dbInitRetries) {
+        await sleep(dbInitDelayMs);
+      }
+    }
+  }
+
+  throw lastError;
 }
 
 app.get('/api/health', async (req, res) => {
@@ -268,8 +302,7 @@ app.get('/', (req, res) => {
 
 async function startServer() {
   try {
-    await ensureSchema();
-    await pool.query('SELECT 1');
+    await initializeDatabaseWithRetry();
 
     app.listen(port, () => {
       console.log(`Servidor corriendo en el puerto ${port}`);
